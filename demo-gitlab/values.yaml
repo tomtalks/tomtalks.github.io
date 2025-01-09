@@ -1,0 +1,10 @@
+# Default values for lab-gitlab.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+labName: production
+trigram: <votre_trigramme>
+
+pod:
+  image: registry.gitlab.com/yodamad-workshops/kub-workshop/nginxdemos
+  version: plain-text

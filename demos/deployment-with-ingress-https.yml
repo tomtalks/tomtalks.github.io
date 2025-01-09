@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secured-deployment-ingress
+  namespace: demos
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host secured.yodamad.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: simple-deployment-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+  tls:
+    - hosts:
+        - *host
+      secretName: nginx-demo-tls
+---

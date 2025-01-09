@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.labName }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: &host {{ .Values.labName }}.{{ .Values.trigram }}grunty.uk
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ .Values.labName }}
+            port:
+              number: 80
+        pathType: Prefix
+        path: /
+  tls:
+    - hosts:
+        - *host
+      secretName: nginx-{{ .Values.labName }}-tls

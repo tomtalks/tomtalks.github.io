@@ -1,0 +1,44 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registry
+  namespace: kyverno
+  annotations:
+    policies.kyverno.io/title: Restrict Image Registries
+    policies.kyverno.io/description: >-
+      Only images from specific gitlab.com registry are allowed.
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: validate-registries
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - external-dns
+                - external-secrets
+                - nginx-ingress-controller
+                - kyverno
+                - cert-manager
+                - kube-downscaler
+                - flux-system
+          - resources:
+              names:
+                - "cm-acme-http-solver*"
+      validate:
+        message: "Unauthorized registry."
+        pattern:
+          spec:
+            =(ephemeralContainers):
+              - image: "registry.gitlab.com/*"
+            =(initContainers):
+              - image: "registry.gitlab.com/*"
+            containers:
+              - image: "registry.gitlab.com/*"

@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-cert-manager
+resources:
+- ns.yaml
+- cert-manager-helm.yml
+- ../letsencrypt-cluster-issuer.yml

@@ -1,0 +1,15 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cert-manager
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./cert-manager/flux
+  dependsOn:
+    - name: external-dns
+    - name: nginx-ingress-controller
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

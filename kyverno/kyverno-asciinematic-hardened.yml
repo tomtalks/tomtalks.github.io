@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asciinematic-hardened
+  namespace: demos
+spec:
+  selector:
+    matchLabels:
+      app: asciinematic-hardened
+  template:
+    metadata:
+      labels:
+        app: asciinematic-hardened
+    spec:
+      containers:
+        - image: registry.gitlab.com/yodamad-workshops/kub-workshop/asciinematic:latest
+          name: asciinematic-hardened
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: gitlabcred

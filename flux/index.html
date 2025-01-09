@@ -1,0 +1,1480 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Workshop documentation for grafana">
+      
+      
+        <meta name="author" content="TJO & MVT">
+      
+      
+        <link rel="canonical" href="https://k8s.grunty.uk/flux/">
+      
+      
+        <link rel="prev" href="../gitlab/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>🤖 Flux - ❤️ Grafana ❤️</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gitops-tu-connais" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="❤️ Grafana ❤️" class="md-header__button md-logo" aria-label="❤️ Grafana ❤️" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ❤️ Grafana ❤️
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              🤖 Flux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tomtalks/ws_grafana" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tomtalks/ws_grafana
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="❤️ Grafana ❤️" class="md-nav__button md-logo" aria-label="❤️ Grafana ❤️" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    ❤️ Grafana ❤️
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tomtalks/ws_grafana" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tomtalks/ws_grafana
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🧱 Terraform
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../initial-stage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1️⃣ Init
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx-ingress-controller/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛜 Ingress Controller
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-dns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🗺️ External-DNS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cert-manager/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🪪 Cert-manager
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-secrets/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🔑 External-secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kyverno/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛂 Kyverno
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kube-downscaler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🌱 Kube-downscaler
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    👨🏻‍🍳 Recette
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🎪 Demos
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            🎪 Demos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gitlab/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🦊 GitLab env
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    🤖 Flux
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    🤖 Flux
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pré-requis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-pat-personal-access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitLab PAT (Personal Access Token)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-de-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation de Flux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cette-fois-cest-la-bonne-on-configure-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cette fois c'est la bonne : on configure Flux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#petite-visite-de-notre-nouvelle-cuisine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Petite visite de notre nouvelle cuisine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Petite visite de notre nouvelle cuisine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cellier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le cellier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notre-premiere-recette" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notre première recette
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notre première recette">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-des-helmrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Définition des HelmRepository
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nouveaux-commis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nouveaux commis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-envoie-les-commandes-en-cuisine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On envoie les commandes en cuisine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="On envoie les commandes en cuisine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Controller
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress Controller">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-descriptif-de-notre-recette-est-une-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le descriptif de notre recette est une Kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-definition-de-notre-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      La definition de notre Namespace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#et-la-definition-de-notre-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      Et la definition de notre HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaud-devant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaud devant !
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-envoie-la-sauce" class="md-nav__link">
+    <span class="md-ellipsis">
+      On envoie la sauce
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Secrets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="External Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-des-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup des secrets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation-de-notre-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Présentation de notre kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaud-devant_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaud devant !
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-dns-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      External DNS &amp;&amp; Cert-manager
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pré-requis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pré-requis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-pat-personal-access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitLab PAT (Personal Access Token)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation-de-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation de Flux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cette-fois-cest-la-bonne-on-configure-flux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cette fois c'est la bonne : on configure Flux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#petite-visite-de-notre-nouvelle-cuisine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Petite visite de notre nouvelle cuisine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Petite visite de notre nouvelle cuisine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-cellier" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le cellier
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notre-premiere-recette" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notre première recette
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notre première recette">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition-des-helmrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Définition des HelmRepository
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nouveaux-commis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nouveaux commis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-envoie-les-commandes-en-cuisine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On envoie les commandes en cuisine
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="On envoie les commandes en cuisine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ingress-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress Controller
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress Controller">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#le-descriptif-de-notre-recette-est-une-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Le descriptif de notre recette est une Kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-definition-de-notre-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      La definition de notre Namespace
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#et-la-definition-de-notre-helmrelease" class="md-nav__link">
+    <span class="md-ellipsis">
+      Et la definition de notre HelmRelease
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaud-devant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaud devant !
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-envoie-la-sauce" class="md-nav__link">
+    <span class="md-ellipsis">
+      On envoie la sauce
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Secrets
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="External Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-des-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup des secrets
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#presentation-de-notre-kustomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Présentation de notre kustomization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaud-devant_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaud devant !
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-dns-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      External DNS &amp;&amp; Cert-manager
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="gitops-tu-connais">GitOps tu connais ?</h1><p style="color:#bdbdbd"><i>Estimated time to read: 9 minutes</i></p>
+
+<p>Ok, on a réussi notre petite recette. Tout est écrit mais ça serait encore mieux si on pouvait automatiser tout ça en utilisant <a href="https://fluxcd.io/">Flux</a> par exemple.</p>
+<h2 id="pre-requis">Pré-requis</h2>
+<p>Pour boostraper Flux (en gros l'installer dans votre cluster), il faut que la personne qui lance la commande ait les droits <strong>cluster admin</strong> sur le cluster Kubernetes cible. Il est aussi nécessaire que la personne qui lance la commande soit le propriétaire du projet GitLab, ou ait les droits admin d'un groupe GitLab.</p>
+<p>N'oubliez pas de <a href="../recipe/#cest-parti">forker le projet</a> pour pouvoir le modifier <strong>ET</strong> de basculer sur votre nouveau repo 😁</p>
+<div class="admonition info pas besoin de forker 2 fois">
+<p class="admonition-title">Info</p>
+<p>Si vous avez fait la partie <a href="../gitlab/">environnements gitlab</a> avant celle-ci et que vous avez déjà forké le projet, pas besoin de faire un nouveau fork.
+Vous pouvez réutiliser le 1er.</p>
+</div>
+<div class="admonition info gitpod">
+<p class="admonition-title">Info</p>
+<p>Si vous utilisez Gitpod n'oubliez pas de télécharger votre <code>kubeconfig</code> alias <code>cluster-ovh-${TF_VAR_OVH_CLOUD_PROJECT_KUBE_NAME}.yml</code>. Avec le fork vous allez démarrer avec un nouveau pod et par conséquence vos fichiers locaux ne seront plus accessibles.</p>
+</div>
+<p>Ensuite, il va nous falloir un token GitLab pour que Flux puisse se connecter à notre repo GitLab.</p>
+<h3 id="gitlab-pat-personal-access-token">GitLab PAT (Personal Access Token)</h3>
+<p>On va récupérer le token et le stocker dans une variable d'environnement.</p>
+<details class="tip">
+<summary>Comment récupérer un token GitLab</summary>
+<p>Pour créer un token GitLab, il faut aller dans votre profil GitLab, puis dans <code>Preferences &gt; Access Tokens</code>
+<img alt="Profile" src="imgs/PAT1.png" /></p>
+<p><img alt="Create PAT" src="imgs/PAT2.png" /></p>
+<p>Et créer un token avec les bons scopes:
+<img alt="PAT Scopes" src="imgs/PAT3.png" /></p>
+</details>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITLAB_TOKEN</span><span class="o">=</span>&lt;THE<span class="w"> </span>TOKEN&gt;
+</span></code></pre></div>
+<h2 id="installation-de-flux">Installation de Flux</h2>
+<p>La première étape est d'installer Flux CLI.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://fluxcd.io/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash
+</span></code></pre></div>
+<h2 id="cette-fois-cest-la-bonne-on-configure-flux">Cette fois c'est la bonne : on configure Flux</h2>
+<p>On va demander à la CLI d'initialiser Flux sur notre cluster et de se connecter à notre repo GitLab.</p>
+<p>Tout est décrit <a href="https://fluxcd.io/flux/installation/bootstrap/gitlab/">dans le tuto</a> Flux.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Si la variable d'environement GITLAB_TOKEN n'est pas renseignée, le boostrap va demander de saisir le token.</p>
+<p>Il est possible de fournir le token avec une commande du type: <code>echo "&lt;gl-token&gt;" | flux bootstrap gitlab</code>.</p>
+</div>
+<p>On lance le bootstrap sur le projet avec notre compte personnel:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flux<span class="w"> </span>bootstrap<span class="w"> </span>gitlab<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--deploy-token-auth<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--owner<span class="o">=</span>&lt;NAMESPACE_NAME&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--repository<span class="o">=</span>&lt;PROJECT_STUG&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--branch<span class="o">=</span>main<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--path<span class="o">=</span>flux/devoxx-cluster/<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span>--personal
+</span></code></pre></div>
+<p>Il y a trois paramètres à remplacer :</p>
+<ul>
+<li><strong>NAMESPACE_NAME</strong> : le groupe ou sous-groupe dans lequel vous voulez initialiser Flux</li>
+<li><strong>PROJECT_STUG</strong> : le project dans lequel Flux va stocker les informations dont il a besoin</li>
+<li><strong>path</strong> : le chemin où sont stocké les fichiers de configuration de Flux dans le repo</li>
+</ul>
+<p><strong>NAMESPACE_NAME</strong> + <strong>PROJECT_STUG</strong> doivent correspondre au chemin du repository dans lequel vous avez forké ce workshop.</p>
+<p>Lorsque l'on utilise <code>--deploy-token-auth</code>, la CLI génère un token GL et le stock dans le cluster sous la forme d'une <code>Secret</code> qui s'appelle <strong>flux-system</strong> dans le Namespace <strong>flux-system</strong>.</p>
+<details class="tip">
+<summary>Flux bootstrap output</summary>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">► connecting to https://gitlab.com</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">► cloning branch &quot;main&quot; from Git repository &quot;https://gitlab.com/yodamad-workshops/kub-workshop.git&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">✔ cloned repository</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">► generating component manifests</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="go">✔ generated component manifests</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="go">✔ committed sync manifests to &quot;main&quot; (&quot;4271d8d7adef5572f1031f0f21767d449d0ccbb4&quot;)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="go">► pushing component manifests to &quot;https://gitlab.com/yodamad-workshops/kub-workshop.git&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="go">► installing components in &quot;flux-system&quot; namespace</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="go">✔ installed components</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="go">✔ reconciled components</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="go">► checking to reconcile deploy token for source secret</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="go">✔ configured deploy token &quot;flux-system-main-flux-system-./flux/devoxx-cluster&quot; for &quot;https://gitlab.com/yodamad-workshops/kub-workshop&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="go">► determining if source secret &quot;flux-system/flux-system&quot; exists</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="go">► generating source secret</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="go">► applying source secret &quot;flux-system/flux-system&quot;</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="go">✔ reconciled source secret</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="go">► generating sync manifests</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="go">✔ generated sync manifests</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="go">✔ committed sync manifests to &quot;main&quot; (&quot;05dfd597d5959fda3a783f2336b65d1f1d7b121d&quot;)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="go">► pushing sync manifests to &quot;https://gitlab.com/yodamad-workshops/kub-workshop.git&quot;</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="go">► applying sync manifests</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="go">✔ reconciled sync configuration</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="go">◎ waiting for Kustomization &quot;flux-system/flux-system&quot; to be reconciled</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="go">✔ Kustomization reconciled successfully</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="go">► confirming components are healthy</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="go">✔ helm-controller: deployment ready</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="go">✔ kustomize-controller: deployment ready</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="go">✔ notification-controller: deployment ready</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="go">✔ source-controller: deployment ready</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="go">✔ all components are healthy</span>
+</span></code></pre></div>
+</details>
+<p>Bien joué !</p>
+<p>L'agent Flux va maintenant surveiller notre repo GitLab et appliquer les changements automatiquement.</p>
+<h2 id="petite-visite-de-notre-nouvelle-cuisine">Petite visite de notre nouvelle cuisine</h2>
+<h3 id="le-cellier">Le cellier</h3>
+<p>Si on pull le repo GitLab, on peut voir que Flux a crée un nouveau repertoire <code>flux/devoxx-cluster/flux-system</code> qui contient la configuration de Flux :</p>
+<ul>
+<li><code>kustomization.yaml</code> est un index, on va lister ici les manifests qui doivent être pris en compte dans ce répertoire.</li>
+<li><code>gotk-components.yaml</code> contient la définition des RBAC et des CRDs (Custom Resource Definition) utilisées par Flux.</li>
+<li><code>gotk-sync.yaml</code> définit la manières dont l'opérateur se connecte au repo au travers du <strong>Kind</strong> <code>GitRepository</code> et le type <strong>Kustomization</strong> permet de configurer quels sont les manifest / configuration à scruter. Pour nous, tout ce qui se trouve dans <code>./flux/devoxx-cluster</code> sera utilisé comme configuration.</li>
+</ul>
+<p>Ici le fichier <code>./flux/devoxx-cluster/flux-system/gotk-sync.yaml</code> contient la configuration de Flux pour se connecter à notre repo GitLab.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/devoxx-cluster/flux-system/gotk-sync.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">source.toolkit.fluxcd.io/v1</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="c1"># ICI on trouve le nom de notre Objet GitRepository</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="hll"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span></span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m0s</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">  </span><span class="nt">ref</span><span class="p">:</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="c1"># ICI la branche à utiliser</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">    </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">  </span><span class="nt">secretRef</span><span class="p">:</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="c1"># ICI vous retrouverez l&#39;adresse de votre repo GitLab    </span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="hll"><span class="w">  </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://gitlab.com/jouve.thomas/kub-workshop-snowcamp-2024.git</span>
+</span></span></code></pre></div></td></tr></table></div>
+<h3 id="notre-premiere-recette">Notre première recette</h3>
+<p>On va pouvoir lui dire d'appliquer la configuration grace aux objets <strong>Kustomization</strong>.</p>
+<p>Si on regarde par example le fichier <code>flux/repo.yaml</code>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/repo.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>
+</span></code></pre></div></td></tr></table></div></p>
+<p>On peut voir que l'on décrit en language <strong>Flux</strong> un nouveau répertoire à surveiller <code>./flux/repository</code> dans notre <code>GitRepository:flux-system</code>.</p>
+<h4 id="definition-des-helmrepository">Définition des HelmRepository</h4>
+<p>Dans ce répertoire <code>./flux/repository</code> on retrouve par example le fichier <code>nginx.yaml</code> :
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/repository/nginx.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>
+</span></code></pre></div></td></tr></table></div></p>
+<p>Cette fois-ci on configure un <strong>HelmRepository</strong> qui va permettre à <strong>Flux</strong> de récupérer les informations sur les charts disponibles dans le repo <strong>Helm</strong>.</p>
+<p>On pourra faire référence à ce chart sous le nom <code>nginx-ingress-controller</code>.</p>
+<h3 id="nouveaux-commis">Nouveaux commis</h3>
+<p>On va maintenant deplacer ce fichier <code>repo.yaml</code> dans le répertoire <code>flux/devoxx-cluster/</code> qui est le seul, pour le moment, que connait <strong>Flux</strong>.</p>
+<p>Effectivement le fichier <code>gotk-sync.yaml</code> indique que seul le répertoire <code>./flux/devoxx-cluster</code> est scrupté par <strong>Flux</strong> :</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/devoxx-cluster/flux-system/gotk-sync.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kustomize.toolkit.fluxcd.io/v1</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m0s</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="hll"><span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./flux/devoxx-cluster</span>
+</span></span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="w">  </span><span class="nt">prune</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a><span class="w">  </span><span class="nt">sourceRef</span><span class="p">:</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a><span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flux-system</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="on-envoie-les-commandes-en-cuisine">On envoie les commandes en cuisine</h2>
+<p>Et on <code>push commit</code>, car maintenant c'est <strong>Flux</strong> qui se charge de faire la synchronisation sur le cluster depuis notre repo.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cp<span class="w"> </span>flux/repo.yaml<span class="w"> </span>flux/devoxx-cluster/repo.yaml
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>add<span class="w"> </span>flux/devoxx-cluster/repo.yaml
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-am<span class="w"> </span><span class="s2">&quot;:satellite_orbital: Setup Helm repos&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>push
+</span></code></pre></div>
+<p>On peut observer la réconciliation avec la commande suivante :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flux<span class="w"> </span>get<span class="w"> </span>kustomizations<span class="w"> </span>--watch
+</span></code></pre></div>
+<p>On a quelque chose comme ça :</p>
+<ul>
+<li>il y a 2 répertoires à surveiller (2 <code>Kustomization</code>)</li>
+<li>la synchronisation est active (<code>SUSPENDED : False</code>)</li>
+<li>et à jour (<code>READY : True</code>)</li>
+</ul>
+<p>Il indique aussi quelle est la révision utilisée pour la synchronisation (ici :<code>main@sha1:c80d7d4c</code>).</p>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">NAME            REVISION                SUSPENDED       READY   MESSAGE                              </span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="go">flux-system     main@sha1:c80d7d4c      False           True    Applied revision: main@sha1:c80d7d4c</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="go">repos           main@sha1:c80d7d4c      False           True    Applied revision: main@sha1:c80d7d4c</span>
+</span></code></pre></div>
+<p>On peux vérifier en regardant si il a bien créé nos resources <code>HelmRepository</code> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>HelmRepository<span class="w"> </span>-A
+</span></code></pre></div>
+<div class="language-console highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">NAMESPACE     NAME                       URL                                          AGE    READY   STATUS</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="go">flux-system   cert-manager               https://charts.jetstack.io                   112s   True    stored artifact: revision &#39;sha256:c930db5052b76d7be3026686612fa09f89a23f8547a8ecad7496d788e34964e5&#39;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="go">flux-system   external-secrets           https://charts.external-secrets.io           112s   True    stored artifact: revision &#39;sha256:35fa1d6332232e3c6d032627547ffc74c7e61c4729ed1daa680b2202c61a78da&#39;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="go">flux-system   nginx-ingress-controller   https://kubernetes.github.io/ingress-nginx   112s   True    stored artifact: revision &#39;sha256:e6a6c9e8f3682deea82b3bc22506d4fdabd667ce37cb1d0f7509459ca92c3426&#39;</span>
+</span></code></pre></div>
+<h3 id="ingress-controller">Ingress Controller</h3>
+<p>Tout est prêt dans le répertoire <code>./nginx-ingress-controller/flux</code> pour déployer notre Ingress Controller.</p>
+<h4 id="le-descriptif-de-notre-recette-est-une-kustomization">Le descriptif de notre recette est une <code>Kustomization</code></h4>
+<div class="admonition note">
+<p class="admonition-title">Ici ce n'est pas une <code>Kustomization</code> mais une <code>Kustomization</code> 🧌</p>
+</div>
+<p>Il faut <a href="https://fluxcd.io/flux/faq/#are-there-two-kustomization-types">lire</a> :</p>
+<ul>
+<li><em>Kustomization</em>@<strong>kustomize.toolkit.fluxcd.io/v1</strong> est la <a href="https://fluxcd.io/flux/components/kustomize/kustomizations/">CRD de FLux</a> pour les objects Flux (le liens vers un repo / repertoire / interval de scrapping)</li>
+<li><em>Kustomization</em>@<strong>kustomize.config.k8s.io/v1beta1</strong> est l'objet <a href="https://kubectl.docs.kubernetes.io/references/kustomize/">Kustomize</a> de Kubernetes</li>
+</ul>
+<p>Ici on déclare une recette avec le nom <code>flux-nginx-ingress-controller</code> et qu'il est nécessaire d'utiliser les fichiers <code>nginx-ingress-controller.yaml</code> et <code>ns.yaml</code> pour déployer notre Ingress Controller.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./nginx-ingress-controller/flux/ks.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<h4 id="la-definition-de-notre-namespace">La definition de notre Namespace</h4>
+<p>Avec un simple fichier manifest vanilla :</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./nginx-ingress-controller/flux/ns.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<h4 id="et-la-definition-de-notre-helmrelease">Et la definition de notre HelmRelease</h4>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./nginx-ingress-controller/flux/nginx-ingress-controller.yml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<h4 id="chaud-devant">Chaud devant !</h4>
+<p>Avant de lancer la commande en cuisine, soyons fou et supprimons notre Ingress Controller précédemment installé pour laisser faire <strong>Flux</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Ce n'est pas obligatoire, mais c'est pour voir la magie de Flux.</p>
+<p>En fait Flux va juste réappliquer la configuration, donc si vous ne supprimez pas l'Ingress Controller, il va juste le mettre à jour.
+Il utilisera <code>install</code> ou <code>upgrade</code> en fonction de l'état de l'objet HelmRelease.   </p>
+</div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="w"> </span>helm<span class="w"> </span>list<span class="w"> </span>-A
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w"> </span>helm<span class="w"> </span>uninstall<span class="w"> </span>ingress-nginx<span class="w"> </span>-n<span class="w"> </span>nginx-ingress-controller
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w"> </span>helm<span class="w"> </span>list<span class="w"> </span>-A
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>-n<span class="w"> </span>nginx-ingress-controller
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>ns<span class="w"> </span>nginx-ingress-controller
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>ns
+</span></code></pre></div>
+<h4 id="on-envoie-la-sauce">On envoie la sauce</h4>
+<p>On va maintenant déplacer le fichier <code>flux/nginx-ingress-controller.yaml</code> dans le répertoire <code>flux/devoxx-cluster/</code> comme pour les repos Helm.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/nginx-ingress-controller.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>cp<span class="w"> </span>flux/nginx-ingress-controller.yaml<span class="w"> </span>flux/devoxx-cluster/nginx-ingress-controller.yaml
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>add<span class="w"> </span>flux/devoxx-cluster/nginx-ingress-controller.yaml
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-am<span class="w"> </span><span class="s2">&quot;:satellite_orbital: Setup Ingress Controller&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>push
+</span></code></pre></div>
+On observe la synchro avec la commande suivante :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>flux<span class="w"> </span>get<span class="w"> </span>kustomizations<span class="w"> </span>--watch
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="w"> </span>helm<span class="w"> </span>list<span class="w"> </span>-A
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Helm list ne nous retourne rien car c&#39;est Flux qui gére maintenant&quot;</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w"> </span>sleep<span class="w"> </span><span class="m">20</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;On utilise : &quot;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>HelmRepository<span class="w"> </span>-A
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>HelmChart<span class="w"> </span>-A
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>HelmRelease<span class="w"> </span>-A
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>ns
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>all<span class="w"> </span>-n<span class="w"> </span>nginx-ingress-controller
+</span></code></pre></div>
+<h3 id="external-secrets">External Secrets</h3>
+<p>On va maintenant déployer notre External Secrets. Comme ça pas besoin de stocker les secrets à la main.</p>
+<h4 id="setup-des-secrets">Setup des secrets</h4>
+<p>Commençons par créer les variables d'environnement dans notre repo GitLab. (Ils ne sont pas repris lors du fork et heureusement ...).</p>
+<ul>
+<li>Soit on passe par l'UI de Gitlab</li>
+</ul>
+<p><img alt="Variables CI CD GL" src="imgs/CICDVariables.png" /></p>
+<ul>
+<li>Soit on utilise l'API de Gitlab</li>
+</ul>
+<p>Il vous faut l'ID du projet, vous pouvez le trouver ici :</p>
+<p><img alt="Project ID" src="imgs/projectID.png" /></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nv">PROJECT_ID</span><span class="o">=</span><span class="w"> </span>&lt;YOUR_PROJECT_ID&gt;
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span>--header<span class="w"> </span><span class="s2">&quot;PRIVATE-TOKEN: </span><span class="nv">$GITLAB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">     </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">/variables&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">     </span>--form<span class="w"> </span><span class="s2">&quot;key=API_MAIL&quot;</span><span class="w"> </span>--form<span class="w"> </span><span class="s2">&quot;value=</span><span class="si">${</span><span class="nv">API_MAIL</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>curl<span class="w"> </span>--request<span class="w"> </span>POST<span class="w"> </span>--header<span class="w"> </span><span class="s2">&quot;PRIVATE-TOKEN: </span><span class="nv">$GITLAB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">     </span><span class="s2">&quot;https://gitlab.com/api/v4/projects/</span><span class="si">${</span><span class="nv">PROJECT_ID</span><span class="si">}</span><span class="s2">/variables&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">     </span>--form<span class="w"> </span><span class="s2">&quot;key=API_KEY&quot;</span><span class="w"> </span>--form<span class="w"> </span><span class="s2">&quot;value=</span><span class="si">${</span><span class="nv">API_KEY</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></div>
+<p>Il ne nous reste plus qu'à :</p>
+<ul>
+<li>créer notre <code>Secret</code> dans notre cluster Kubernetes <a href="../external-secrets/#creons-le-secret-de-connexion">comme vu précédement</a>, mais cette fois avec votre compte.</li>
+<li>modifier le fichier <code>./external-secrets/flux/external-secrets-secret-store.yml</code> pour y mettre votre ID project.</li>
+</ul>
+<p><div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./external-secrets/flux/external-secrets-secret-store.yml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1"></a>
+</span></code></pre></div></td></tr></table></div>
+Par exemple avec : 
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;PROJECT_ID&gt;/</span><span class="nv">$PROJECT_ID</span><span class="s2">/&quot;</span><span class="w"> </span>./external-secrets/flux/external-secrets-secret-store.yml
+</span></code></pre></div></p>
+<h4 id="presentation-de-notre-kustomization">Présentation de notre kustomization</h4>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./external-secrets/flux/ks.yml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1"></a>
+</span></code></pre></div></td></tr></table></div>
+<ul>
+<li>Création du NS</li>
+<li>Déployement des CRDS (Custom Resource Definition)</li>
+<li>Déployement de l'opérateur</li>
+<li>Déployement des CRS (Custom Resource) <a href="https://external-secrets.io/latest/provider/gitlab-variables/">les différents providers</a> (ici GitLab)</li>
+<li>La définition de notre secret store</li>
+</ul>
+<h4 id="chaud-devant_1">Chaud devant !</h4>
+<p>Fin prêt pour lancer la commande :
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>cp<span class="w"> </span>flux/external-secrets.yaml<span class="w"> </span>flux/devoxx-cluster/external-secrets.yaml
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>git<span class="w"> </span>add<span class="w"> </span>flux/devoxx-cluster/external-secrets.yaml
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-am<span class="w"> </span><span class="s2">&quot;:satellite_orbital: Setup External Secret&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>push
+</span></code></pre></div></p>
+<h3 id="external-dns-cert-manager">External DNS &amp;&amp; Cert-manager</h3>
+<p>Un dernier petit tips pour la route :</p>
+<p><div class="language-yaml highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">./flux/cert-manager.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1"></a>
+</span></code></pre></div></td></tr></table></div>
+La commande <code>dependsOn</code> permet de définir une dépendance entre les différents objets Flux.
+<pre class="mermaid"><code>flowchart TD
+  A[Cert Manager] --&gt;|dependsOn| B[external-dns];
+  A[Cert Manager] --&gt;|dependsOn| C[nginx-ingress-controller];
+  B --&gt;|dependsOn| D[external-secrets];</code></pre></p>
+<p>On s'assure ainsi que les différentes recettes sont appliquées dans l'ordre.</p>
+<p><strong>Retournons à la recette pour encore plus de découvertes <a href="../recipe/#et-ca-sert-à-quoi-⁉️">➡️</a></strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 TomTalks
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/tomtalks/ws_grafana" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/yodamad03" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9L389.2 48zm-24.8 373.8h39.1L151.1 88h-42l255.3 333.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/farunty" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9L389.2 48zm-24.8 373.8h39.1L151.1 88h-42l255.3 333.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>

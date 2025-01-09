@@ -1,0 +1,11 @@
+#https://external-secrets.io/latest/examples/gitops-using-fluxcd/
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: flux-external-secrets
+resources:
+- ns.yml
+- deployment-cdrs.yml
+- deployment.yml
+- deployment-crs.yml
+- external-secrets-secret-store.yml

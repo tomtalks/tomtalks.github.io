@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-deployment-ingress
+  namespace: demos
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: simple-deployment.yodamad.fr
+      http:
+        paths:
+          - backend:
+              service:
+                name: simple-deployment-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+---
